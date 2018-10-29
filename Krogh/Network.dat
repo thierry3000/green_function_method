@@ -1,0 +1,35 @@
+Krogh model
+  100.  100.  100.	box dimensions in microns
+  10    10   10	number of tissue points in x,y,z directions
+  50.				outerbound distance.  
+  20.				max. segment length
+  4				nodsegm, max. allowed number of segments per node
+  10				total number of segments
+name  type   from   to   diam. rel. flow  hem.
+  1    5      1    2   10.0   1.00    0.40
+  2    5      2    3   10.0   1.00    0.40
+  3    5      3    4   10.0   1.00    0.40
+  4    5      4    5   10.0   1.00    0.40
+  5    5      5    6   10.0   1.00    0.40
+  6    5      6    7   10.0   1.00    0.40
+  7    5      7    8   10.0   1.00    0.40
+  8    5      8    9   10.0   1.00    0.40
+  9    5      9    10   10.0   1.00    0.40
+  10    5     10    11   10.0   1.00    0.40
+11				total number of nodes
+name  x     y     z
+1	50	50	0
+2	50	50	10
+3	50	50	20
+4	50	50	30
+5	50	50	40
+6	50	50	50
+7	50	50	60
+8	50	50	70
+9	50	50	80
+10	50	50	90
+11	50	50	100
+2       total number of boundary nodes
+node bctyp press/flow   HD    PO2
+   1    2        10.    0.4   100. 1.
+   11   0        13.    0.4   100. 1.
