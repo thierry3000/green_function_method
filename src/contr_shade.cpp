@@ -149,9 +149,9 @@ void contr_shade(FILE *ofp, int m, int n, float scalefac, int nl,float xmin,
 //Set up colors using Matlab 'jet' scheme
 	for(k=0; k<=nl; k++){
 		xz = float(k)/float(nl);
-		blue[k] = __min(__max(1.5-4*abs(xz-0.25), 0.), 1.);
-		green[k]= __min(__max(1.5-4*abs(xz-0.5), 0.), 1.);
-		red[k]  = __min(__max(1.5-4*abs(xz-0.75), 0.), 1.);
+		blue[k] = fmin(fmax(1.5-4*fabs(xz-0.25), 0.), 1.);
+		green[k]= fmin(fmax(1.5-4*fabs(xz-0.5), 0.), 1.);
+		red[k]  = fmin(fmax(1.5-4*fabs(xz-0.75), 0.), 1.);
 	}
 //Color whole region with lowest color
 	if(lowcolor > 0){
