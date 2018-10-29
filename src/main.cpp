@@ -11,6 +11,7 @@ See greens.cpp for description of changes.
 #include <string.h>
 #include <math.h>
 #include "nrutil.h"
+#include <boost/filesystem.hpp>
 
 void input(void);
 void analyzenet(void);
@@ -80,17 +81,29 @@ int main(int argc, char *argv[])
 
 	setuparrays2(nnv,nnt);
 
+	//create pic folder
+	const char dir_path1[] = "pic";
+	boost::filesystem::path dir1(dir_path1);
+	if(boost::filesystem::create_directory(dir1)) {
+		printf("created pic directory\n");
+	}
+	//create output folder
+	const char dir_path2[] = "output";
+	boost::filesystem::path dir2(dir_path2);
+	if(boost::filesystem::create_directory(dir2)) {
+		printf("created output directory\n");
+	}
 	for(iseg=1; iseg<=nseg; iseg++) segvar[iseg] = segname[iseg];
 	for(inod=1; inod<=nnod; inod++) nodvar[inod] = nodname[inod];
-	picturenetwork(nodvar,segvar,"NetNodesSegs.ps");
+	picturenetwork(nodvar,segvar,"pic/NetNodesSegs.ps");
 
 	greens();
 
 	for(iseg=1; iseg<=nseg; iseg++) segvar[iseg] = pvseg[iseg][1];
 	for(inod=1; inod<=nnod; inod++) nodvar[inod] = nodname[inod];
-	picturenetwork(nodvar,segvar,"NetNodesOxygen.ps");
+	picturenetwork(nodvar,segvar,"pic/NetNodesOxygen.ps");
 
-	contour("Contour.ps");
+	contour("pic/Contour.ps");
 
 	histogram();
 

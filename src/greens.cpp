@@ -250,8 +250,8 @@ void greens(void)
 //	}
 
 //create log file
-	ofp1 = fopen("GreensLog.txt", "w");
-	fprintf(ofp1,"GreensLog.txt\n");
+	ofp1 = fopen("output/GreensLog.txt", "w");
+	fprintf(ofp1,"output/GreensLog.txt\n");
 	fclose(ofp1);
 	tstart = clock();
 //********************** start of main loop *****************************
@@ -557,7 +557,7 @@ void greens(void)
 			printf("*** Warning: solute %i, %i tissue source strengths not converged\n",isp,errtissuecount[isp]);
 		tissueconv:;
 //Print log file.  April 2010
-		ofp1 = fopen("GreensLog.txt", "a");
+		ofp1 = fopen("output/GreensLog.txt", "a");
 		kvessel = IMIN(kvessel,nmaxvessel);
 		ktissue = IMIN(ktissue,nmaxtissue);
 		fprintf(ofp1,"\n----- kmain = %i, kvessel = %i, ktissue = %i -----\n",kmain,kvessel,ktissue);
@@ -641,7 +641,7 @@ void greens(void)
 			if(err > eps[isp]) convflag = 0;
 		}
 //Print log file - April 2010
-		ofp1 = fopen("GreensLog.txt", "a");
+		ofp1 = fopen("output/GreensLog.txt", "a");
 		for(isp=1; isp<=nsp; isp++){
 			if(permsolute[isp] == 1) fprintf(ofp1,"Solute %i: errvessel_p = %f, imaxerr = %i\n",
 				isp,errvessel[isp],segname[imaxerrvessel[isp]]);
@@ -657,7 +657,7 @@ void greens(void)
 	tfinish = clock();
 	duration = (float)(tfinish - tstart)/CLOCKS_PER_SEC;
 	printf("\n%i iterations, %2.1f seconds for main loop\n", kmain,duration);
-	ofp1 = fopen("GreensLog.txt", "a");
+	ofp1 = fopen("output/GreensLog.txt", "a");
 	fprintf(ofp1,"\n%i iterations, %2.1f seconds for main loop\n", kmain,duration);
 	fclose(ofp1);
 //Scale all qv values so that qvsum = qtsum.  April 2010.
@@ -666,7 +666,7 @@ void greens(void)
 		for(i=1; i<=nnv; i++) qv[i][isp] *= qvfac[isp];
 	}
 //general output file, not read by readsources
-	ofp = fopen("GreensRes.out", "w");
+	ofp = fopen("output/GreensRes.out", "w");
 	fprintf(ofp,"%i %i %i %i %i %i\n", nnv, nseg, mxx, myy, mzz, nnt);
 	fprintf(ofp,"Total flow rate into region q0 = %f nl/min\n", q0);
 	for(isp=1; isp<=nsp; isp++) fprintf(ofp,"g0[%i] = %f\n", isp,g0[isp]);
@@ -707,7 +707,7 @@ void greens(void)
 
 //Write output files that allow restart of program without running greens
 //These files are read by readsources
-	ofp = fopen("TissueSources.out", "w");
+	ofp = fopen("output/TissueSources.out", "w");
 	fprintf(ofp,"%i %i %i %i %f\n", mxx,myy,mzz,nnt,req);
 	fprintf(ofp,"X, Y, Z coords of source points");
 	for(i=1; i<=mxx; i++){
@@ -736,7 +736,7 @@ void greens(void)
 	}
 	fclose(ofp);
 
-	ofp = fopen("VesselSources.out", "w");
+	ofp = fopen("output/VesselSources.out", "w");
 	fprintf(ofp,"%i %i\n", nseg,nnv);
 	fprintf(ofp,"Segment start coords, direction cosines, length\n");
 	for(iseg=1; iseg<=nseg; iseg++) if(segtyp[iseg] == 4 || segtyp[iseg] == 5)
@@ -761,7 +761,7 @@ void greens(void)
 	}
 	fclose(ofp);
 
-	ofp = fopen("TissueLevels.out", "w");
+	ofp = fopen("output/TissueLevels.out", "w");
 	for(isp=1; isp<=nsp; isp++){
 		pmax[isp] = -1.e8;
 		pmean[isp] = 0.;
@@ -779,7 +779,7 @@ void greens(void)
 	}
 	fclose(ofp);
 
-	ofp = fopen("VesselLevels.out", "w");
+	ofp = fopen("output/VesselLevels.out", "w");
 	fprintf(ofp,"lowflow");
 	i = 0;
 	for(iseg=1; iseg<=nseg; iseg++) if(segtyp[iseg] == 4 || segtyp[iseg] == 5){

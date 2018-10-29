@@ -23,7 +23,7 @@ void histogram(void)
 	cumu = vector(1,nstatm);
 	mstat = vector(1,nstatm);
 		
-	ofp = fopen("Histogram.out", "w");
+	ofp = fopen("output/Histogram.out", "w");
 	for(isp=1; isp<=nsp; isp++){
 		step = pref[isp]/100;
 		nctop = pmax[isp]/step + 1.;

@@ -22,7 +22,7 @@ void readsources(void)
 	FILE *ifp;
 	char bb[100];
 
-	ifp = fopen("TissueSources.out", "r");
+	ifp = fopen("output/TissueSources.out", "r");
 	fscanf(ifp,"%i %i %i %i", &mxx,&myy,&mzz,&nnt);
 
 	fgets(bb,max,ifp);
@@ -41,7 +41,7 @@ void readsources(void)
 	}
 	fclose(ifp);
 
-	ifp = fopen("VesselSources.out", "r");//needs work for isp>1
+	ifp = fopen("output/VesselSources.out", "r");//needs work for isp>1
 	fscanf(ifp,"%i %i", &nseg,&nnv);
 
 	fgets(bb,max,ifp);
@@ -61,7 +61,7 @@ void readsources(void)
 	}
 	fclose(ifp);
 
-	ifp = fopen("VesselLevels.out", "r");//needs work for isp>1
+	ifp = fopen("output/VesselLevels.out", "r");//needs work for isp>1
 
 
 	fgets(bb,max,ifp);
@@ -74,7 +74,7 @@ void readsources(void)
 	}
 	fclose(ifp);
 
-	ifp = fopen("TissueLevels.out", "r");
+	ifp = fopen("output/TissueLevels.out", "r");
 
 	for(isp=1; isp<=nsp; isp++){
 		fgets(bb,max,ifp);
