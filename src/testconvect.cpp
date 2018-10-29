@@ -30,7 +30,7 @@ void testconvect(int isp)
 		convect(isp);	//restore original values
 		for(i=1; i<=nnv; i++){
 			altest = conv[i]*qq[mainseg[i]]*flowfac/2./delq;
-			if(abs(altest - al[i][j]) > 0.02)
+			if(fabs(altest - al[i][j]) > 0.02)
 				printf("*** Warning:  Possible error in al matrix %i %i %f %f %i %i\n",
 				i,j,al[i][j],altest,segname[mainseg[i]],segname[mainseg[j]]);
 		}
