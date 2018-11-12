@@ -26,3 +26,9 @@ setuparrays2.cpp
 testconvect.cpp
 tissrate.cpp
 )
+find_package(Boost REQUIRED COMPONENTS "system")
+message("Boost_SYSTEM_LIBRARY: ${Boost_SYSTEM_LIBRARY}")
+find_package(Boost REQUIRED COMPONENTS "filesystem")
+message("Boost_FILESYSTEM_LIBRARY: ${Boost_FILESYSTEM_LIBRARY}")
+
+target_link_libraries(green_function_method boost_filesystem boost_system)
