@@ -53,7 +53,7 @@ def get_network_from_file():
   for (i,line) in enumerate(data):
     if 'total number of segments' in line:
       beginOfEdges = i
-    if 'total number of nodes' in line:
+    if 'total number of nodes' in line or '\ttotal\tnumber\tof\tnodes' in line:
       endOfEdges = i
       
   cropped_edges = data[beginOfEdges+2:endOfEdges]
@@ -107,7 +107,7 @@ def get_roots_from_file():
     data = network_file.readlines()
   
   for (i,line) in enumerate(data):
-    if 'total number of boundary nodes' in line:
+    if 'total number of boundary nodes' in line or 'total\tnumber\tof\tboundary\tnodes' in line:
       beginOfRoots = i
       
   cropped_roots = data[beginOfRoots+2:] 
@@ -123,7 +123,10 @@ def get_roots_from_file():
     bctyp_of_roots.append(type_secomb)
     value = float(line.split()[2])
     if(type_secomb == 2):
-      value_of_bc.append(np.fabs(value*1e6/60.))
+      value_of_bc.append(-1*value*1e6/60.)
+    if(type_secomb == 0):
+      value_of_bc.append(np.fabs(value)*0.13)
+  print(value_of_bc)
     
   ds_value_of_bc = nodegrp.create_dataset('bc_value', data = value_of_bc)        
   ds_bctyp_of_roots = nodegrp.create_dataset('bc_type', data= correct_bc_type_from_secomb_to_MW(bctyp_of_roots))
@@ -137,9 +140,9 @@ def get_nodes_from_file():
   nice_name = str(data[0])
   # need to find end
   for (i,line) in enumerate(data):
-    if 'total number of nodes' in line:
+    if 'total number of nodes' in line or '\ttotal\tnumber\tof\tnodes' in line:
       beginOfNodes = i
-    if 'total number of boundary nodes' in line:
+    if 'total number of boundary nodes' in line or 'total\tnumber\tof\tboundary\tnodes' in line:
       endOfNodes = i
       
   
