@@ -83,7 +83,19 @@ def get_network_from_file():
     vesselFlow = line.split()[5]
     vesselHema = line.split()[6]
     label.append(int(vesselId)-1)
-    if isMesentry and vesselId==439:
+    ''' vessel     nodes node 408 --> vessel 439
+        439        408 409
+        354        341 342
+        343        331 332
+        317        309 310
+  press 262        256 257
+  vein  208        102 208
+        195        194 195
+         95         95  96
+          1          1   2
+    '''
+    mesentryArtery = [439, 354, 343, 317, 195,95,1]
+    if isMesentry and vesselId in mesentryArtery:
       print("it happend once")
       #is we want to calculated the oxygen afterward, 
       #we need at least one arterial inlet to provide oxygen
