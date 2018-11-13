@@ -48,6 +48,10 @@ def get_network_from_file():
   with open('Network.dat','r') as network_file:
     data = network_file.readlines()
   nice_name = str(data[0])
+  isMesentry = 'Network of 28-10-90 with 546 segments - SE corner region' in nice_name
+  if isMesentry:
+    print('we are working with the data:')
+    print('Network of 28-10-90 with 546 segments - SE corner region')
   #edges start at 8
   # need to find end
   for (i,line) in enumerate(data):
@@ -71,16 +75,22 @@ def get_network_from_file():
   flow = []
 
   for line in cropped_edges:
-    vesselId = line.split()[0]
+    vesselId = int(line.split()[0])
     vesselType = line.split()[1]
     vesselA = line.split()[2]
     vesselB = line.split()[3]
     vesselDiameter = line.split()[4]
     vesselFlow = line.split()[5]
     vesselHema = line.split()[6]
-    
     label.append(int(vesselId)-1)
-    mw_vessel_flag.append(ku.CAPILLARY)
+    if isMesentry and vesselId==439:
+      print("it happend once")
+      #is we want to calculated the oxygen afterward, 
+      #we need at least one arterial inlet to provide oxygen
+      # to the system
+      mw_vessel_flag.append(ku.ARTERY)
+    else:
+      mw_vessel_flag.append(ku.CAPILLARY)
     node_a_index.append(int(vesselA)-1)
     node_b_index.append(int(vesselB)-1)
     radii.append(float(vesselDiameter)/2)
