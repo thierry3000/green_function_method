@@ -7,7 +7,7 @@ Solute parameters for brain network
   2.7			n in Hill equation 
   0.5             Oxygen binding capacity of red cells in cm^3/cm^3/mmHg
   2.8e-5         Effective solubility of oxygen in blood in cm^3/cm^3/mmHg
-  100.0		Total inflow to network in nl/min (10.8 in test case)
+  6.6		Total inflow to network in nl/min (10.8 in test case)
   1			number of reacting species, species 1 is oxygen
 Solute 1 - oxygen
   0	1   1		permsolute, 0 or 1, diffsolute, 0 or 1; oxygen, 0 or 1, 1 if solute is oxygen

@@ -38,8 +38,8 @@ with h5py.File(old_file_name, 'r') as f:
     f_out['vessels/nodes'].create_dataset('pressure', data=f['vessels/nodes/pressure'])
     
     f_out['vessels/nodes'].create_dataset('bc_value', data = [5.23394,3.59805])
-    f_out['vessels/nodes'].create_dataset('bc_type', data = [0,0])
-    f_out['vessels/nodes'].create_dataset('bc_node_index', data = [5,8])
+    f_out['vessels/nodes'].create_dataset('bc_type', data = [1,1])
+    f_out['vessels/nodes'].create_dataset('bc_node_index', data = [0,1])
     f_out['vessels/nodes'].create_dataset('bc_conductivity_value', data = [0,0])
 
 calcflow_param_dict_for_tumorcode = dict(

@@ -36,6 +36,7 @@ percentage_of_boundary_security = 1. #0 is no security, 1 means one time the sys
 
 if __name__ == '__main__':
     fn = sys.argv[1]
+    group = sys.argv[2]
     fout = open('Network.dat','w+')
       
     ''' the single capillary case was used to test the software '''
@@ -45,10 +46,19 @@ if __name__ == '__main__':
           node_grp = f['thierry_case2/vessels/nodes']
           vessel_grp = f['thierry_case2/vessels/']
       else:
-          node_grp = f['/recomputed_flow/vessels/nodes']
-          vessel_grp = f['/recomputed_flow/vessels/']
+          node_grp = f[group + '/nodes']
+          vessel_grp = f[group]
       roots_list = np.asarray(node_grp['roots'])
       segment_list,real_world_positions, pressure_at_node,radius_data, flow_data, hematocrit_data, flag_data_edges, a, b= krebsutils.read_vessels_from_hdf(vessel_grp,['position','pressure','radius','flow','hematocrit','flags','node_a_index','node_b_index'])
+    
+    
+    pressure_at_node = pressure_at_node[:,0]
+    radius_data =radius_data[:,0]
+    flow_data = flow_data[:,0]
+    hematocrit_data = hematocrit_data[:,0]
+    flag_data_edges = flag_data_edges[:,0]
+    a = a[:,0]
+    b = b[:,0]
     ''' *************** Unit change **********************'''
     ''' secomb uses flow measured in nl as input
         see flowfac in his implementation
