@@ -95,6 +95,8 @@ def get_network_from_file():
           1          1   2
     '''
     mesentryArtery = [439, 354, 343, 317, 195,95,1]
+    #guess artery from HD
+    mesentryArtery = [208,95,1]
     if isMesentry and vesselId in mesentryArtery:
       print("it happend once")
       #is we want to calculated the oxygen afterward, 
@@ -289,8 +291,8 @@ if __name__ == '__main__':
   '''
   calcflow_param_dict_for_tumorcode = dict(
     viscosityPlasma = 1.2e-6, #commented means using default for rats
-    rheology = 'RheologySecomb2005',
-    inletHematocrit = 0.40,
+    rheology = 'RheologyForRats',
+    inletHematocrit = 0.37,
     includePhaseSeparationEffect = 1,)
   ##CALCULATE!!!!
   dd = ku.calc_vessel_hydrodynamics_Ccode(fn, 'vessels', True, calcflow_param_dict_for_tumorcode, False, True)
