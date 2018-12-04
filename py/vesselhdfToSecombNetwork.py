@@ -123,6 +123,7 @@ if __name__ == '__main__':
     connected_segments = is_set(flag_data_edges,krebsutils.CONNECTED)
     boundary_data = is_set(flag_data_edges,krebsutils.BOUNDARY)
     good_segments=circulated_segments*connected_segments
+    
     segment_list=segment_list[good_segments]
     radius_data=radius_data[good_segments]
     flow_data=flow_data[good_segments]
@@ -140,7 +141,7 @@ if __name__ == '__main__':
             fout.write('%i 5 %i %i %f %5.10f %f\n'%(i+1, segment[0]+1,segment[1]+1, 2*radius_data[i], flow_data[i],hematocrit_data[i]))        
         else:
            how_many_sign_switch=how_many_sign_switch+1
-           fout.write('%i 5 %i %i %f %5.10f %f\n'%(i+1, segment[1]+1,segment[0]+1, 2*radius_data[i], flow_data[i],hematocrit_data[i]))        
+           fout.write('%i 5 %i %i %f %5.10f %f\n'%(i+1, segment[0]+1,segment[1]+1, 2*radius_data[i], -1*flow_data[i],hematocrit_data[i]))        
     print('We switche %i times the sign of the flow!'%how_many_sign_switch)
     
     fout.write('  %i total number of nodes\n'%real_world_positions[:,:].shape[0])
@@ -150,16 +151,11 @@ if __name__ == '__main__':
         
     
     ''' create boundary conditions '''
-    roots_list2 = []
-    for (k,root) in enumerate(roots_list):
-        if True:
-            roots_list2.append(k)
-    
     fout.write('%i total number of boundary nodes\n' % len(roots_list))
     fout.write('node	bctyp	press/flow	HD	PO2\n')
-    for i in range(0,len(roots_list2)):
+    for i in range(0,len(roots_list)):
         #fout.write('%i 0 %f 0.37 55. 1\n'%(roots_list2[i]+1,pressure_at_nodes[roots_list2[i]]))
-        fout.write('%i 2 %f 0.37 55. 1\n'%(roots_list2[i]+1,pressure_at_node[roots_list2[i]]))
-
+        fout.write('%i 2 %f 0.37 55. 1\n'%(roots_list[i]+1,pressure_at_node[roots_list[i]]))
+        fout.write('Secomb flow is 2, Sebomb pressure is 0, pressure: %f, flow: %f\n' %(pressure_at_node[roots_list[i]],flow_data[roots_list[i]]))
     print('Minimal flow in system: %f'% (min(abs(flow_data))))
     fout.close()
