@@ -25,6 +25,9 @@ Created on Tue Nov 25 13:56:26 2014
           we compared run time and accuracy to that. 
           The present file was used to transform the simulation result of tumorcode (II) 
           into a format that could be used by the present software.
+          
+          SO FAR THIS IS ONLY TEST WITH TYPE 4 networks 
+          (one arterial, one venous root node)
 """
 
 import h5py
@@ -128,6 +131,7 @@ if __name__ == '__main__':
     radius_data=radius_data[good_segments]
     flow_data=flow_data[good_segments]
     hematocrit_data=hematocrit_data[good_segments]
+    flag_data_edges=flag_data_edges[good_segments]
     
     print('Deleted %i uncirculated segments.'%(len(good_segments)-sum(good_segments)))
     
@@ -138,24 +142,44 @@ if __name__ == '__main__':
     for (i, segment) in enumerate(segment_list):
         #check for direction
         if(pressure_at_node[segment[0]]>pressure_at_node[segment[1]]):
-            fout.write('%i 5 %i %i %f %5.10f %f\n'%(i+1, segment[0]+1,segment[1]+1, 2*radius_data[i], flow_data[i],hematocrit_data[i]))        
+            fout.write('%i 5 %i %i %f %5.10f %f\n'%(i+1, segment[1]+1,segment[0]+1, 2*radius_data[i], flow_data[i],hematocrit_data[i]))        
         else:
            how_many_sign_switch=how_many_sign_switch+1
-           fout.write('%i 5 %i %i %f %5.10f %f\n'%(i+1, segment[0]+1,segment[1]+1, 2*radius_data[i], -1*flow_data[i],hematocrit_data[i]))        
+           fout.write('%i 5 %i %i %f %5.10f %f\n'%(i+1, segment[0]+1,segment[1]+1, 2*radius_data[i], flow_data[i],hematocrit_data[i]))        
     print('We switche %i times the sign of the flow!'%how_many_sign_switch)
     
     fout.write('  %i total number of nodes\n'%real_world_positions[:,:].shape[0])
     fout.write('name x y z\n')
     for i in range(0,real_world_positions[:,:].shape[0]):
         fout.write('%i %f %f %f\n'%(i+1,real_world_positions[i,0], real_world_positions[i,1], real_world_positions[i,2]))
-        
+    
     
     ''' create boundary conditions '''
     fout.write('%i total number of boundary nodes\n' % len(roots_list))
     fout.write('node	bctyp	press/flow	HD	PO2\n')
-    for i in range(0,len(roots_list)):
-        #fout.write('%i 0 %f 0.37 55. 1\n'%(roots_list2[i]+1,pressure_at_nodes[roots_list2[i]]))
-        fout.write('%i 2 %f 0.37 55. 1\n'%(roots_list[i]+1,pressure_at_node[roots_list[i]]))
-        fout.write('Secomb flow is 2, Sebomb pressure is 0, pressure: %f, flow: %f\n' %(pressure_at_node[roots_list[i]],flow_data[roots_list[i]]))
+    print('roots_list: %s' % roots_list)
+    for (i, segment) in enumerate(segment_list):
+      for aRootNode in roots_list:
+        if segment[0] == aRootNode:
+          print('%s segment is root connected' %segment)
+          if is_set(flag_data_edges[i],krebsutils.VEIN):
+            print('segment is Vein')
+            fout.write('%i \t0 \t%f \t0.37 \t55. 1. 1\n'%(aRootNode+1,pressure_at_node[aRootNode]))
+          if is_set(flag_data_edges[i],krebsutils.ARTERY):
+            print('segment is Artery')
+            fout.write('%i \t2 \t%f \t0.37 \t55. 1. 1\n'%(aRootNode+1,flow_data[i]))
+        if segment[1] == aRootNode:
+          print('%s segment is root connected' %segment)
+          if is_set(flag_data_edges[i],krebsutils.VEIN):
+            print('segment is Vein')
+            fout.write('%i \t0 \t%f \t0.37 \t55. 1. 1\n'%(aRootNode+1,pressure_at_node[aRootNode]))
+          if is_set(flag_data_edges[i],krebsutils.ARTERY):
+            print('segment is Artery')
+            fout.write('%i \t2 \t%f \t0.37 \t55. 1. 1\n'%(aRootNode+1,flow_data[i]))
+    
+#    for i in range(0,len(roots_list)):
+#        #fout.write('%i 0 %f 0.37 55. 1\n'%(roots_list2[i]+1,pressure_at_nodes[roots_list2[i]]))
+#        fout.write('%i 2 %f 0.37 55. 1\n'%(roots_list[i]+1,pressure_at_node[roots_list[i]]))
+#        fout.write('Secomb flow is 2, Sebomb pressure is 0, pressure: %f, flow: %f\n' %(pressure_at_node[roots_list[i]],flow_data[roots_list[i]]))
     print('Minimal flow in system: %f'% (min(abs(flow_data))))
     fout.close()
