@@ -1,13 +1,13 @@
 Solute parameters for brain network
   1	2	3	rungreens (0 or *1), g0method (*1 or 2), linmethod (1, 2 or *3)
   1  1 1000		nmaxvessel,nmaxtissue,nmax - iteration limits - nmaxtissue=1 improves convergence
-  1.e-5		errfac:  overall convergence tolerance (suggest 1e-5 to 1e-4)
+  1.e-1		errfac:  overall convergence tolerance (suggest 1e-5 to 1e-4)
   5.10		lowflowcrit, criterion for low flow segment (suggest 50)
   27.			P50 in mmHg
   2.7			n in Hill equation 
   0.5             Oxygen binding capacity of red cells in cm^3/cm^3/mmHg
   2.8e-5         Effective solubility of oxygen in blood in cm^3/cm^3/mmHg
-  6.6		Total inflow to network in nl/min (10.8 in test case)
+  143.0		Total inflow to network in nl/min (10.8 in test case)
   1			number of reacting species, species 1 is oxygen
 Solute 1 - oxygen
   0	1   1		permsolute, 0 or 1, diffsolute, 0 or 1; oxygen, 0 or 1, 1 if solute is oxygen
